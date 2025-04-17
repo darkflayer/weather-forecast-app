@@ -37,3 +37,29 @@ A simple yet powerful Django-based web application that provides **current weath
    ```bash
    git clone https://github.com/darkflayer/weather-forecast-app.git
    cd weather-forecast-app
+
+
+
+
+
+📸 Screenshots
+You can add screenshots here after deployment or development preview.
+
+💡 Future Enhancements
+🌗 Dark/light mode toggle
+
+📍 Support for country selection
+
+🌐 Deploy on Render/Heroku/PythonAnywhere
+
+🔁 Unit converter (°C <--> °F)
+
+🙌 Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+👨‍💻 Author
+Hemant Singh
+GitHub Profile | LinkedIn
