@@ -17,7 +17,7 @@ A simple yet powerful Django-based web application that provides **current weath
 
 ## 🚀 Live Demo
 
-*Coming soon...* (Will add link after deployment)
+https://weather-forecast-app-uyds.onrender.com
 
 ---
 
