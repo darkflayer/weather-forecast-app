@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Weather App</title>
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <div class="text-center mb-4">
+        <h1 class="display-5">🌤️ Weather Forecast</h1>
+        <p class="text-muted">Get the latest weather updates by city</p>
+      </div>
+
+      <form method="POST" class="d-flex justify-content-center mb-4" id="weatherForm">
+        {% csrf_token %}
+        <input
+          type="text"
+          name="city"
+          class="form-control w-25 me-2"
+          placeholder="Enter city"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Get Weather</button>
+      </form>
+
+      <div class="d-flex justify-content-center mt-2">
+        <button
+          type="button"
+          class="btn btn-secondary me-2"
+          onclick="getLocation()"
+        >
+          Use My Location
+        </button>
+      </div>
+
+      <!-- Hidden form fields for lat/lon -->
+      <input type="hidden" id="lat" name="lat" />
+      <input type="hidden" id="lon" name="lon" />
+
+      {% if weather.city %}
+      <div class="card mx-auto shadow-sm" style="max-width: 400px">
+        <div class="card-body text-center">
+          <h3 class="card-title">{{ weather.city }}</h3>
+          <img
+            src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png"
+            alt="icon"
+          />
+          <p class="card-text">
+            <strong>🌡️ Temp:</strong> {{ weather.temperature }} °C<br />
+            <strong>🌥️ Desc:</strong> {{ weather.description }}<br />
+            <strong>💧 Humidity:</strong> {{ weather.humidity }}%<br />
+            <strong>🌬️ Wind:</strong> {{ weather.wind }} m/s
+          </p>
+        </div>
+      </div>
+      {% elif weather.error %}
+      <div class="alert alert-danger text-center mt-4">{{ weather.error }}</div>
+      {% endif %}
+      {% if forecast %}
+      <div class="mt-5">
+        <h4 class="text-center">📅 7-Day Forecast</h4>
+        <div class="row row-cols-1 row-cols-md-4 g-3 mt-3">
+          {% for day in forecast %}
+          <div class="col">
+            <div class="card h-100 text-center shadow-sm">
+              <div class="card-body">
+                <p class="card-title fw-bold">{{ day.dt|date:"D, M j" }}</p>
+                <img
+                  src="http://openweathermap.org/img/wn/{{ day.weather.0.icon }}@2x.png"
+                  alt="icon"
+                />
+                <p class="mb-1">{{ day.weather.0.description|capfirst }}</p>
+                <p class="mb-0">🌡️ {{ day.temp.day }}°C</p>
+                <p class="text-muted">
+                  Min: {{ day.temp.min }}°C | Max: {{ day.temp.max }}°C
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} 
+      {% if history %}
+      <div class="mt-4 text-center">
+        <h5>🔁 Recent Searches</h5>
+        <ul class="list-group mx-auto" style="max-width: 400px">
+          {% for city in history %}
+          <li class="list-group-item">{{ city }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Optional Bootstrap JS (for features like dropdowns or modals) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition, handleError);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+
+      function showPosition(position) {
+        document.getElementById("lat").value = position.coords.latitude;
+        document.getElementById("lon").value = position.coords.longitude;
+        document.getElementById("weatherForm").submit(); // Submit the form with lat/lon
+      }
+
+      function handleError(error) {
+        alert("Unable to retrieve location. Please enter city manually.");
+      }
+    </script>
+  </body>
+</html>
