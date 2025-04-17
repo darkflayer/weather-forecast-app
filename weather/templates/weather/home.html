@@ -25,6 +25,8 @@
           placeholder="Enter city"
           required
         />
+        <input type="hidden" id="lat" name="lat" />
+        <input type="hidden" id="lon" name="lon" />
         <button type="submit" class="btn btn-primary">Get Weather</button>
       </form>
 
@@ -39,8 +41,6 @@
       </div>
 
       <!-- Hidden form fields for lat/lon -->
-      <input type="hidden" id="lat" name="lat" />
-      <input type="hidden" id="lon" name="lon" />
 
       {% if weather.city %}
       <div class="card mx-auto shadow-sm" style="max-width: 400px">

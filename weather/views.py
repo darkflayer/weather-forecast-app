@@ -48,6 +48,12 @@ def home(request):
                 'humidity': data['main']['humidity'],
                 'wind': data['wind']['speed']
             }
+            if not city:
+                reverse_geo_url = f"http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={api_key}"
+                reverse_response = requests.get(reverse_geo_url)
+                if reverse_response.status_code == 200 and reverse_response.json():
+                    city = reverse_response.json()[0]['name']
+
 
             if city and city not in search_history:
                 search_history.insert(0, city)
